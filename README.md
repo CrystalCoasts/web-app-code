@@ -2,7 +2,7 @@
 * code located under 'client'
 * npm start
 
-# Nodeja - Backend -
+# Nodejs - Backend -
 * code located under 'server'
 
 --node commands
