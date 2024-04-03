@@ -9,3 +9,13 @@
   font-size: 1.2rem; /* Font size of the pH score */
   font-weight: bold;
 }
+
+.metric {
+  text-align: center; /* Center the metric name */
+}
+
+.metric-value {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px; /* Add margin between metric name and value */
+}
