@@ -8,11 +8,12 @@ const Dashboard = () => {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    const fetchData = () => {
+    const fetchData = async () => {
       const googleDriveCsvUrl =
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRWgtxHG2hLyrOTSPxgKrMzhGlkcqdyLV8tQobZa8B4Pah4giCjY-Ek5euXmK5hvxf3vvPLZTHfzJG/pub?gid=156216978&single=true&output=csv";
       const dataTestArduino =
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vR2WvNSmE8sFCEviG3keE78vd0vCAJJp5bC7NrV8LHCpyKr_8rcax51IpHHbUClx6bjAEeAeNYnQkrk/pub?output=csv";
+
       Papa.parse(googleDriveCsvUrl, {
         download: true,
         delimeter: ",",
@@ -23,7 +24,7 @@ const Dashboard = () => {
             Salinity: results.data[results.data.length - 1][2],
             Turbidity: results.data[results.data.length - 1][3],
             TDS: results.data[results.data.length - 1][4],
-            "Nitride Conc.": results.data[results.data.length - 1][5],
+            Temperature: results.data[results.data.length - 1][5],
           };
           setData(metrics);
         },
@@ -50,7 +51,7 @@ const Header = () => {
 };
 
 const QualityBanner = () => {
-  return <div className="quality-banner">Water Quality: Very Good 👌</div>;
+  return <div className="quality-banner">Water Quality: Very Good</div>;
 };
 
 const Metrics = ({ data }) => {
@@ -94,8 +95,8 @@ const getUnitRate = (name) => {
       return "NTU"; // Nephelometric Turbidity Units
     case "TDS":
       return "ppm"; // Parts per million
-    case "Nitride Conc.":
-      return "mg/L"; // Milligrams per liter
+    case "Temperature":
+      return "°F"; // degrees fahrenheit
     default:
       return ""; // Default case
   }

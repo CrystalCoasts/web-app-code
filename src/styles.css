@@ -23,6 +23,8 @@
   color: #fff;
   text-align: center;
   border-radius: 10px;
+  font-size: 25px;
+  font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .metrics {
@@ -43,11 +45,13 @@
 }
 
 .metric h2 {
-  font-size: 25px;
+  font-size: 30px;
   color: #1e6262;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .metric p {
-  font-size: 14px;
-  color: #666;
+  font-size: 20px;
+  color: #000000;
+  font-family: "Lucida Console", "Courier New", monospace;
 }
