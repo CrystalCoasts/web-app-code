@@ -6,6 +6,7 @@ import OxygenLevelCircle from "./OxygenLevelCircle";
 
 const Dashboard = () => {
   const [data, setData] = useState({});
+  const [lastRowLength, setLastRowLength] = useState(0); //new
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,27 +15,36 @@ const Dashboard = () => {
       const dataTestArduino =
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vR2WvNSmE8sFCEviG3keE78vd0vCAJJp5bC7NrV8LHCpyKr_8rcax51IpHHbUClx6bjAEeAeNYnQkrk/pub?output=csv";
 
-      Papa.parse(googleDriveCsvUrl, {
+      Papa.parse(dataTestArduino, {
         download: true,
-        delimeter: ",",
+        header: true,
         complete: function (results) {
-          let metrics = {
-            pH: results.data[results.data.length - 1][0],
-            "Oxygen Level": results.data[results.data.length - 1][1],
-            Salinity: results.data[results.data.length - 1][2],
-            Turbidity: results.data[results.data.length - 1][3],
-            TDS: results.data[results.data.length - 1][4],
-            Temperature: results.data[results.data.length - 1][5],
-          };
-          setData(metrics);
+          const newDataArray = results.data;
+          const newDataLength = newDataArray.length;
+          // Check if new data has been added since the last fetch
+          if (newDataLength > lastRowLength) {
+            const latestData = newDataArray[newDataLength - 1];
+            setData({
+              pH: latestData.pH,
+              "Oxygen Level": latestData["Oxygen Level"],
+              Salinity: latestData["Salinity"],
+              Turbidity: latestData["Turbidity"],
+              TDS: latestData["TDS"],
+              Temperature: latestData["Temperature"],
+            });
+            setLastRowLength(newDataLength); // Update the last row length
+          }
         },
       });
     };
-    fetchData();
-    const intervalID = setInterval(fetchData, 5000); //5 second intervals
 
-    return () => clearInterval(intervalID);
-  }, []);
+    fetchData();
+    const intervalID = setInterval(fetchData, 15000); //15 second intervals
+
+    return () => {
+      clearInterval(intervalID);
+    };
+  }, [lastRowLength]);
 
   return (
     <div className="dashboard">
